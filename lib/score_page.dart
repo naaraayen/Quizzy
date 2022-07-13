@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:quizzer/data/question_bank.dart';
+import './widgets/score.dart';
 
 // ignore: must_be_immutable
 class ScorePage extends StatelessWidget {
   int score;
   VoidCallback resetQuiz;
-  ScorePage(this.score, this.resetQuiz, {Key? key}) : super(key: key);
+  Color getColor;
+  ScorePage(this.score, this.resetQuiz, this.getColor,{Key? key}) : super(key: key);
+
+  Widget displayText({required String getText, required double getFontSize}) {
+    return Text(
+      getText,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: getFontSize,
+        fontFamily: 'ConcertOne',
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: getColor,
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(3.0),
+              padding: const EdgeInsets.all(5.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -23,22 +37,19 @@ class ScorePage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          DisplayText(getText: 'You Scored', getFontSize: 20),
+                          displayText(getText: 'You Scored', getFontSize: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.ideographic,
                             children: [
-                              //TODO: Add animation to the totalscore
-                              DisplayText(
-                                getText: score.toString(),
-                                getFontSize: 60,
-                              ),
-                              DisplayText(
+                              //Added animation to the Score
+                              DisplayScore(score),
+                              displayText(
                                 getText: ' out of ',
                                 getFontSize: 20,
                               ),
-                              DisplayText(
+                              displayText(
                                 getText:
                                     QuestionBank.questionList.length.toString(),
                                 getFontSize: 30,
@@ -53,12 +64,6 @@ class ScorePage extends StatelessWidget {
                     children: [
                       TextButton(
                           onPressed: resetQuiz,
-
-                          // () => Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => const Quizzy()),
-                          //     ),
                           style: TextButton.styleFrom(
                             side: const BorderSide(
                                 color: Colors.white, width: 1.0),
@@ -86,27 +91,5 @@ class ScorePage extends StatelessWidget {
             ),
           ),
         ));
-  }
-}
-
-// ignore: must_be_immutable
-class DisplayText extends StatelessWidget {
-  DisplayText({Key? key, required this.getText, required this.getFontSize})
-      : super(key: key);
-
-  String getText;
-  double getFontSize;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      getText,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: getFontSize,
-        fontFamily: 'ConcertOne',
-        //fontWeight: FontWeight.bold
-      ),
-    );
   }
 }

@@ -17,11 +17,13 @@ class Quizzy extends StatefulWidget {
 class _QuizzyState extends State<Quizzy> {
   int _index = 0;
   int _score = 0;
+  Color _defaultColor = Colors.teal.shade800;
+
   _resetQuiz() {
     setState(() {
       _index = 0;
+      _score = 0;
     });
-    
   }
 
   _checkAnswer(String getSelect) {
@@ -33,22 +35,29 @@ class _QuizzyState extends State<Quizzy> {
     });
   }
 
+  _colorPicker(Color getColor) {
+    setState(() {
+      _defaultColor = getColor;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: _defaultColor,
             body: SafeArea(
-              //TODO : Add colorpicker option to change the bg color (persistence)
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: _index < QuestionBank.questionList.length
                     ? QuestionPage(
                         index: _index,
                         checkAnswer: _checkAnswer,
+                        colorPicker: _colorPicker,
+                        defaultColor: _defaultColor,
                       )
-                    : ScorePage(_score, _resetQuiz),
+                    : ScorePage(_score, _resetQuiz, _defaultColor),
               ),
             )));
   }

@@ -26,9 +26,9 @@ class _OptionButtonState extends State<OptionButton> {
         widget.checkAnswer(widget.isCorrect);
       },
       style: TextButton.styleFrom(
-          side: const BorderSide(color: Colors.white, width: 1.0),
-          primary: Colors.white,
-          backgroundColor: Colors.transparent),
+        side: const BorderSide(color: Colors.white, width: 1.0),
+        primary: Colors.white,
+      ),
       child: Text(
         widget.option,
         style: const TextStyle(color: Colors.white),
