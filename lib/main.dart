@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:quizzer/data/question_bank.dart';
-import 'package:quizzer/score_page.dart';
-import 'package:quizzer/question_page.dart';
+import 'package:provider/provider.dart';
+import './provider/temporary_data.dart';
+import './screens/home_screen.dart';
+import './provider/question.dart';
+import './screens/score_screen.dart';
+import './screens/question_screen.dart';
+
 
 void main() {
   runApp(const Quizzy());
@@ -15,50 +19,25 @@ class Quizzy extends StatefulWidget {
 }
 
 class _QuizzyState extends State<Quizzy> {
-  int _index = 0;
-  int _score = 0;
-  Color _defaultColor = Colors.teal.shade800;
-
-  _resetQuiz() {
-    setState(() {
-      _index = 0;
-      _score = 0;
-    });
-  }
-
-  _checkAnswer(String getSelect) {
-    if (getSelect == 'true') {
-      _score = _score + 1;
-    }
-    setState(() {
-      _index = _index + 1;
-    });
-  }
-
-  _colorPicker(Color getColor) {
-    setState(() {
-      _defaultColor = getColor;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => Question()),
+        ChangeNotifierProvider(create: (ctx) => TemporaryData())
+      ],
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            backgroundColor: _defaultColor,
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: _index < QuestionBank.questionList.length
-                    ? QuestionPage(
-                        index: _index,
-                        checkAnswer: _checkAnswer,
-                        colorPicker: _colorPicker,
-                        defaultColor: _defaultColor,
-                      )
-                    : ScorePage(_score, _resetQuiz, _defaultColor),
-              ),
-            )));
+        theme: ThemeData(
+          primaryColor: Colors.teal,
+          // TODO: Implement proper theme
+        ),
+        routes: {
+          '/': (ctx) => const Home(),
+          QuestionScreen.routeName: (ctx) => const QuestionScreen(),
+          ScoreScreen.routeName: (ctx) => const ScoreScreen(),
+        },
+      ),
+    );
   }
 }

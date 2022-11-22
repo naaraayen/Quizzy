@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class DisplayScore extends StatefulWidget {
   final int displayScore;
   const DisplayScore(this.displayScore, {Key? key}) : super(key: key);
@@ -24,7 +25,6 @@ class _DisplayScoreState extends State<DisplayScore>
   @override
   void dispose() {
     animationController.dispose();
-
     super.dispose();
   }
 

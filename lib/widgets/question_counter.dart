@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:quizzer/data/question_bank.dart';
+import 'package:provider/provider.dart';
+import '../provider/question.dart';
+import '../provider/temporary_data.dart';
 
 class QuestionCounter extends StatelessWidget {
-  final int index;
-  const QuestionCounter({
-    Key? key,
-    required this.index,
-  }) : super(key: key);
+  const QuestionCounter({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
+    final tempData = Provider.of<Question>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.ideographic,
       children: [
-        Counter(
-          getText: (index + 1).toString(),
-          getFontSize: 30,
+        Consumer<TemporaryData>(
+          builder: (ctx, tempData, _) => Counter(
+            getText: (tempData.initialIndex + 1).toString(),
+            getFontSize: 30,
+          ),
         ),
         Counter(
           getText: ' / ',
           getFontSize: 20,
         ),
         Counter(
-          getText: QuestionBank.questionList.length.toString(),
+          getText: tempData.questionItems.length.toString(),
           getFontSize: 20,
         ),
       ],
