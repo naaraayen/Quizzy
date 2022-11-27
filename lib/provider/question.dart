@@ -23,11 +23,17 @@ class Question with ChangeNotifier {
     return _questionItems;
   }
 
+  List<dynamic> _categories = [];
+
+  List<dynamic> get categories {
+    return _categories;
+  }
+
   // TODO: Add user token to fetch data from rest api
-  // TODO: Create custom exception handler
-  Future<void> fetchQuestions() async {
-    final url = Uri.parse(
-        'https://opentdb.com/api.php?amount=20&difficulty=hard&type=multiple');
+  // TODO: Create exception handler
+  Future<void> fetchQuestions(int catId) async {
+    final url =
+        Uri.parse('https://opentdb.com/api.php?amount=20&category=$catId');
     try {
       final response =
           await http.get(url, headers: {"Accept": "application/json"});
@@ -36,7 +42,6 @@ class Question with ChangeNotifier {
       List<QuestionItem> extractedQuestion = [];
       final extractedData = responseBody['results'];
       for (var itemData in extractedData) {
-
         // Merging correct and incorrect answers
         Random random = Random();
         var mergedOptions = [];
@@ -56,6 +61,26 @@ class Question with ChangeNotifier {
         debugPrint(_questionItems[0].options.length.toString());
         notifyListeners();
       }
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchCategory() async {
+    final url = Uri.parse('https://opentdb.com/api_category.php');
+    try {
+      final response =
+          await http.get(url, headers: {"Accept": "application/json"});
+      final responseData = json.decode(response.body);
+      List<Map<String, dynamic>> extractedCategory = [];
+      final categoryData = responseData['trivia_categories'] as List<dynamic>;
+
+      for (var questionItem in categoryData) {
+        extractedCategory.add(questionItem);
+      }
+
+      _categories = categoryData;
+      notifyListeners();
     } catch (error) {
       rethrow;
     }

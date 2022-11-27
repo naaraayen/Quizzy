@@ -33,7 +33,7 @@ class _QuizzyState extends State<Quizzy> {
           // TODO: Implement proper theme
         ),
         routes: {
-          '/': (ctx) => const Home(),
+          '/': (ctx) => Home(),
           QuestionScreen.routeName: (ctx) => const QuestionScreen(),
           ScoreScreen.routeName: (ctx) => const ScoreScreen(),
         },

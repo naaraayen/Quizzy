@@ -17,14 +17,20 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
   late Future initFetch;
   Color selectedColor = Colors.teal.shade800;
+  var isInit = true;
   @override
-  void initState() {
-    getJsonData();
-    super.initState();
+  void didChangeDependencies() {
+    if (isInit) {
+      final catId = ModalRoute.of(context)!.settings.arguments as int;
+      getJsonData(catId);
+    }
+    isInit = false;
+    super.didChangeDependencies();
   }
 
-  void getJsonData() {
-    initFetch = Provider.of<Question>(context, listen: false).fetchQuestions();
+  void getJsonData(int catId) {
+    initFetch =
+        Provider.of<Question>(context, listen: false).fetchQuestions(catId);
   }
 
   @override
@@ -52,7 +58,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       QuestionCounter(),
                     ],
                   ),
-                  // Display question and options
+                  // Display question and its options
                   const DisplayQuestion(),
                   SizedBox(
                       height: deviceSize.height * 0.25,
@@ -72,11 +78,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   SizedBox(
                     height: 15.0,
                   ),
-                  Text('Hold On', 
-                  style: TextStyle(
-                    color: Colors.white,
-                    
-                  ),)
+                  Text(
+                    'Hold On',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
                 ],
               ),
             );
