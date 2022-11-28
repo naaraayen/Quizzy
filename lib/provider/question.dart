@@ -31,9 +31,9 @@ class Question with ChangeNotifier {
 
   // TODO: Add user token to fetch data from rest api
   // TODO: Create exception handler
-  Future<void> fetchQuestions(int catId) async {
+  Future<void> fetchQuestions(int catId, String difficulty) async {
     final url =
-        Uri.parse('https://opentdb.com/api.php?amount=20&category=$catId');
+        Uri.parse('https://opentdb.com/api.php?amount=20&category=$catId&difficulty=$difficulty');
     try {
       final response =
           await http.get(url, headers: {"Accept": "application/json"});

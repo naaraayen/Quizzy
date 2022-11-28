@@ -21,16 +21,16 @@ class _QuestionScreenState extends State<QuestionScreen> {
   @override
   void didChangeDependencies() {
     if (isInit) {
-      final catId = ModalRoute.of(context)!.settings.arguments as int;
-      getJsonData(catId);
+      final catId = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      getJsonData(catId['categoryId'], catId['difficulty']);
     }
     isInit = false;
     super.didChangeDependencies();
   }
 
-  void getJsonData(int catId) {
+  void getJsonData(int catId, String difficulty) {
     initFetch =
-        Provider.of<Question>(context, listen: false).fetchQuestions(catId);
+        Provider.of<Question>(context, listen: false).fetchQuestions(catId, difficulty);
   }
 
   @override

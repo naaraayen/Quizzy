@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import '../screens/question_screen.dart';
 import '../widgets/category_picker.dart';
+import '../widgets/difficulty_picker.dart';
 
 // ignore: must_be_immutable
 class Home extends StatelessWidget {
   Home({super.key});
   var initialIndex = 0;
   var categoryId = 9;
+  var difficulty = 'simple';
 
   void getCategoryId(int catId) {
     categoryId = catId;
+  }
+
+  void getDifficultyLevel(String difficultyLevel) {
+    difficulty = difficultyLevel;
   }
 
   @override
@@ -21,11 +27,16 @@ class Home extends StatelessWidget {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+           
             CategoryPicker(getCategoryId),
             InkWell(
               onTap: () {
                 Navigator.of(context)
-                    .pushNamed(QuestionScreen.routeName, arguments: categoryId);
+                    .pushNamed(QuestionScreen.routeName, arguments: {
+                      'categoryId' : categoryId,
+                      'difficulty' : difficulty,
+
+                    });
               },
               child: SizedBox(
                 height: 200,
@@ -55,6 +66,7 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
+             DifficultyPicker(getDifficultyLevel),
           ],
         )));
   }
