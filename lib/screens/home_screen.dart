@@ -8,7 +8,7 @@ class Home extends StatelessWidget {
   Home({super.key});
   var initialIndex = 0;
   var categoryId = 9;
-  var difficulty = 'simple';
+  var difficulty = 'easy';
 
   void getCategoryId(int catId) {
     categoryId = catId;

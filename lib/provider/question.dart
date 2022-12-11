@@ -33,7 +33,7 @@ class Question with ChangeNotifier {
   // TODO: Create exception handler
   Future<void> fetchQuestions(int catId, String difficulty) async {
     final url =
-        Uri.parse('https://opentdb.com/api.php?amount=20&category=$catId&difficulty=$difficulty');
+        Uri.parse('https://opentdb.com/api.php?amount=10&category=$catId&difficulty=$difficulty');
     try {
       final response =
           await http.get(url, headers: {"Accept": "application/json"});
@@ -77,6 +77,7 @@ class Question with ChangeNotifier {
 
       for (var questionItem in categoryData) {
         extractedCategory.add(questionItem);
+
       }
 
       _categories = categoryData;

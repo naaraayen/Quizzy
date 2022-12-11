@@ -14,7 +14,6 @@ class _DifficultyPickerState extends State<DifficultyPicker> {
   List<String> difficulties = ['easy', 'medium', 'hard'];
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Column(
@@ -52,7 +51,6 @@ class _DifficultyPickerState extends State<DifficultyPicker> {
                             ),
                         child: Center(child: Text(item.toUpperCase(), style: const TextStyle(
                           color: Colors.white,
-
                         ),)),
                       ),
                     ),
